@@ -83,6 +83,28 @@ export default {
         "scale-in": { "0%": { opacity: "0", transform: "scale(0.96)" }, "100%": { opacity: "1", transform: "scale(1)" } },
         "float-slow": { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-6px)" } },
         "pulse-glow": { "0%,100%": { boxShadow: "0 0 0 0 hsl(327 100% 58% / 0.45)" }, "50%": { boxShadow: "0 0 30px 10px hsl(327 100% 58% / 0)" } },
+        "modal-in": {
+          "0%": { opacity: "0", transform: "translate(-50%, -46%) scale(0.94)", filter: "blur(8px)" },
+          "60%": { opacity: "1", filter: "blur(0)" },
+          "100%": { opacity: "1", transform: "translate(-50%, -50%) scale(1)", filter: "blur(0)" },
+        },
+        "modal-out": {
+          "0%": { opacity: "1", transform: "translate(-50%, -50%) scale(1)", filter: "blur(0)" },
+          "100%": { opacity: "0", transform: "translate(-50%, -52%) scale(0.96)", filter: "blur(6px)" },
+        },
+        "overlay-in": {
+          "0%": { opacity: "0", backdropFilter: "blur(0px)" },
+          "100%": { opacity: "1", backdropFilter: "blur(8px)" },
+        },
+        "overlay-out": {
+          "0%": { opacity: "1", backdropFilter: "blur(8px)" },
+          "100%": { opacity: "0", backdropFilter: "blur(0px)" },
+        },
+        "shimmer-reveal": {
+          "0%": { transform: "translateX(-120%) skewX(-12deg)", opacity: "0" },
+          "30%": { opacity: "1" },
+          "100%": { transform: "translateX(220%) skewX(-12deg)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -91,6 +113,11 @@ export default {
         "scale-in": "scale-in 0.25s ease-out",
         "float-slow": "float-slow 5s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2.5s ease-in-out infinite",
+        "modal-in": "modal-in 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
+        "modal-out": "modal-out 0.25s cubic-bezier(0.4, 0, 1, 1)",
+        "overlay-in": "overlay-in 0.35s ease-out forwards",
+        "overlay-out": "overlay-out 0.25s ease-in forwards",
+        "shimmer-reveal": "shimmer-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards",
       },
     },
   },
