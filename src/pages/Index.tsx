@@ -4,6 +4,7 @@ import { desktopIcons } from "@/data/icons";
 import { profile } from "@/data/portfolio";
 import { Wifi, BatteryFull, Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useClock = () => {
   const [now, setNow] = useState(new Date());
@@ -16,6 +17,18 @@ const useClock = () => {
 
 const Desktop = () => {
   const time = useClock();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Auto-open the Profile modal on the very first visit only, so users land on
+  // the intended default view but can still close it without it springing back.
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    if (sessionStorage.getItem("ana-default-opened") === "1") return;
+    sessionStorage.setItem("ana-default-opened", "1");
+    navigate("/profile", { replace: true });
+  }, [location.pathname, navigate]);
+
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden">
