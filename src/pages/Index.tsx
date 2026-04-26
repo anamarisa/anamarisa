@@ -69,8 +69,8 @@ const Desktop = () => {
           <span className="text-foreground/90">I build things end-to-end.</span>
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-          Fullstack developer · Laravel · NestJS · React · Next.js. <br className="hidden sm:block" />
-          Click any icon to open a window — or just hang out.
+          Fullstack developer · Laravel · Java Springboot · NestJS · React · Next.js. <br className="hidden sm:block" />
+          Click any icon to open a window — or just hang out. 🍵
         </p>
       </section>
 

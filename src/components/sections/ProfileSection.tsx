@@ -31,7 +31,7 @@ export const ProfileSection = () => (
     <div className="grid gap-2 text-sm sm:grid-cols-2">
       <ContactRow icon={MapPin} label={profile.location} />
       <ContactRow icon={Mail} label={profile.email} href={`mailto:${profile.email}`} />
-      <ContactRow icon={Phone} label={profile.phone} href={`tel:${profile.phone.replace(/\s/g, "")}`} />
+      {/* <ContactRow icon={Phone} label={profile.phone} href={`tel:${profile.phone.replace(/\s/g, "")}`} /> */}
       <ContactRow icon={Linkedin} label="LinkedIn" href={profile.linkedin} />
       <ContactRow icon={Github} label="GitHub" href={profile.github} />
     </div>

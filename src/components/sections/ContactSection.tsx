@@ -3,7 +3,7 @@ import { Github, Linkedin, Mail, Phone } from "lucide-react";
 
 const links = [
   { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-  { icon: Phone, label: "Phone / WhatsApp", value: profile.phone, href: `tel:${profile.phone.replace(/\s/g, "")}` },
+  // { icon: Phone, label: "Phone / WhatsApp", value: profile.phone, href: `tel:${profile.phone.replace(/\s/g, "")}` },
   { icon: Linkedin, label: "LinkedIn", value: "ana-m-039135131", href: profile.linkedin },
   { icon: Github, label: "GitHub", value: "anamarisa", href: profile.github },
 ];

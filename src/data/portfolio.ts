@@ -25,9 +25,8 @@ export interface Project {
 export const profile = {
   name: "Ana Marisa",
   title: "Fullstack Developer",
-  location: "West Jakarta, Banten, Indonesia",
+  location: "West Jakarta, Indonesia",
   email: "ana.marisa.mf@gmail.com",
-  phone: "+62 851-5733-9847",
   linkedin: "https://linkedin.com/in/ana-m-039135131",
   github: "https://github.com/anamarisa",
   summary:
