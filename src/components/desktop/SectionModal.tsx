@@ -60,11 +60,15 @@ export const SectionModal = () => {
   const { section } = useParams<{ section?: string }>();
   const navigate = useNavigate();
 
-  const id = useMemo<SectionId>(() => {
-    if (!section) return "profile";
-    return (VALID as string[]).includes(section) ? (section as SectionId) : "profile";
-  }, [section]);
+  // Modal is open whenever the URL has a valid section segment.
+  // Root "/" = desktop view (no modal). Profile is reached via "/profile".
+  const isOpen = !!section && (VALID as string[]).includes(section);
 
+  const id = useMemo<SectionId>(() => {
+    return isOpen ? (section as SectionId) : "profile";
+  }, [isOpen, section]);
+
+  // Bounce unknown section slugs back to the desktop.
   useEffect(() => {
     if (section && !(VALID as string[]).includes(section)) {
       navigate("/", { replace: true });
@@ -75,17 +79,18 @@ export const SectionModal = () => {
   // the lazy chunk has been cached — so route switches always feel smooth.
   const [showSkeleton, setShowSkeleton] = useState(true);
   useEffect(() => {
+    if (!isOpen) return;
     setShowSkeleton(true);
     const t = setTimeout(() => setShowSkeleton(false), MIN_SKELETON_MS);
     return () => clearTimeout(t);
-  }, [id]);
+  }, [id, isOpen]);
 
   const meta = desktopIcons.find((i) => i.id === id);
   const Icon = meta?.icon;
 
   return (
     <Dialog
-      open
+      open={isOpen}
       onOpenChange={(o) => {
         if (!o) navigate("/");
       }}
