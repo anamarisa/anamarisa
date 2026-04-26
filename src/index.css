@@ -147,6 +147,28 @@
     border-color: hsl(var(--primary) / 0.6);
   }
 
+  .shimmer-skeleton {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .shimmer-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      hsl(0 0% 100% / 0.06) 45%,
+      hsl(327 100% 70% / 0.18) 50%,
+      hsl(0 0% 100% / 0.06) 55%,
+      transparent 80%
+    );
+    transform: translateX(-100%);
+    animation: shimmer-sweep 1.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
   .grid-bg {
     background-image:
       linear-gradient(hsl(0 0% 100% / 0.025) 1px, transparent 1px),

@@ -1,17 +1,33 @@
-import { useEffect, useMemo } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { desktopIcons } from "@/data/icons";
 import type { SectionId } from "@/data/portfolio";
+import { SectionSkeleton } from "@/components/desktop/SectionSkeleton";
 
-import { ProfileSection } from "@/components/sections/ProfileSection";
-import { ExperienceSection } from "@/components/sections/ExperienceSection";
-import { ProjectsSection } from "@/components/sections/ProjectsSection";
-import { SkillsSection } from "@/components/sections/SkillsSection";
-import { EducationSection } from "@/components/sections/EducationSection";
-import { ContactSection } from "@/components/sections/ContactSection";
-import { ResumeSection } from "@/components/sections/ResumeSection";
+// Lazy-load every section so its mount triggers a Suspense fallback.
+const ProfileSection = lazy(() =>
+  import("@/components/sections/ProfileSection").then((m) => ({ default: m.ProfileSection })),
+);
+const ExperienceSection = lazy(() =>
+  import("@/components/sections/ExperienceSection").then((m) => ({ default: m.ExperienceSection })),
+);
+const ProjectsSection = lazy(() =>
+  import("@/components/sections/ProjectsSection").then((m) => ({ default: m.ProjectsSection })),
+);
+const SkillsSection = lazy(() =>
+  import("@/components/sections/SkillsSection").then((m) => ({ default: m.SkillsSection })),
+);
+const EducationSection = lazy(() =>
+  import("@/components/sections/EducationSection").then((m) => ({ default: m.EducationSection })),
+);
+const ContactSection = lazy(() =>
+  import("@/components/sections/ContactSection").then((m) => ({ default: m.ContactSection })),
+);
+const ResumeSection = lazy(() =>
+  import("@/components/sections/ResumeSection").then((m) => ({ default: m.ResumeSection })),
+);
 
 const VALID: SectionId[] = ["profile", "experience", "projects", "skills", "education", "contact", "resume"];
 
@@ -37,22 +53,32 @@ const renderSection = (id: SectionId) => {
   }
 };
 
+// Minimum skeleton dwell so transitions don't flash for a frame.
+const MIN_SKELETON_MS = 220;
+
 export const SectionModal = () => {
   const { section } = useParams<{ section?: string }>();
   const navigate = useNavigate();
 
-  // Default route "/" => profile modal
   const id = useMemo<SectionId>(() => {
     if (!section) return "profile";
     return (VALID as string[]).includes(section) ? (section as SectionId) : "profile";
   }, [section]);
 
-  // Normalize unknown routes back to /
   useEffect(() => {
     if (section && !(VALID as string[]).includes(section)) {
       navigate("/", { replace: true });
     }
   }, [section, navigate]);
+
+  // Force the skeleton to show briefly when the section changes — even after
+  // the lazy chunk has been cached — so route switches always feel smooth.
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  useEffect(() => {
+    setShowSkeleton(true);
+    const t = setTimeout(() => setShowSkeleton(false), MIN_SKELETON_MS);
+    return () => clearTimeout(t);
+  }, [id]);
 
   const meta = desktopIcons.find((i) => i.id === id);
   const Icon = meta?.icon;
@@ -64,9 +90,7 @@ export const SectionModal = () => {
         if (!o) navigate("/");
       }}
     >
-      <DialogContent
-        className="glass max-w-2xl gap-0 border-white/10 bg-card/70 p-0 shadow-glow"
-      >
+      <DialogContent className="glass max-w-2xl gap-0 border-white/10 bg-card/70 p-0 shadow-glow">
         <DialogHeader className="border-b border-border/60 bg-background/40 px-6 py-4 text-left">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl glass-pink">
@@ -89,7 +113,17 @@ export const SectionModal = () => {
         </DialogHeader>
 
         <ScrollArea className="max-h-[70vh]">
-          <div className="px-6 py-6">{renderSection(id)}</div>
+          <div key={id} className="px-6 py-6">
+            {showSkeleton ? (
+              <div className="animate-fade-in" aria-busy="true" aria-live="polite">
+                <SectionSkeleton section={id} />
+              </div>
+            ) : (
+              <Suspense fallback={<SectionSkeleton section={id} />}>
+                <div className="animate-fade-in">{renderSection(id)}</div>
+              </Suspense>
+            )}
+          </div>
         </ScrollArea>
       </DialogContent>
     </Dialog>
