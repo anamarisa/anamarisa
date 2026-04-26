@@ -65,7 +65,7 @@ export const SectionModal = () => {
       }}
     >
       <DialogContent
-        className="glass max-w-2xl gap-0 overflow-hidden border-white/10 bg-card/70 p-0 shadow-glow data-[state=open]:animate-scale-in"
+        className="glass max-w-2xl gap-0 border-white/10 bg-card/70 p-0 shadow-glow"
       >
         <DialogHeader className="border-b border-border/60 bg-background/40 px-6 py-4 text-left">
           <div className="flex items-center gap-3">
