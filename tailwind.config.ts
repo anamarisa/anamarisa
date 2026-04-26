@@ -63,27 +63,34 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
+        display: ['"Space Grotesk"', "Inter", "system-ui"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+      },
+      backgroundImage: {
+        "gradient-pink": "var(--gradient-pink)",
+        "gradient-aurora": "var(--gradient-aurora)",
+      },
+      boxShadow: {
+        glow: "var(--shadow-glow)",
+        soft: "var(--shadow-soft)",
+      },
       keyframes: {
-        "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
-        },
-        "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
-        },
+        "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
+        "accordion-up": { from: { height: "var(--radix-accordion-content-height)" }, to: { height: "0" } },
+        "fade-in": { "0%": { opacity: "0", transform: "translateY(8px)" }, "100%": { opacity: "1", transform: "translateY(0)" } },
+        "scale-in": { "0%": { opacity: "0", transform: "scale(0.96)" }, "100%": { opacity: "1", transform: "scale(1)" } },
+        "float-slow": { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-6px)" } },
+        "pulse-glow": { "0%,100%": { boxShadow: "0 0 0 0 hsl(327 100% 58% / 0.45)" }, "50%": { boxShadow: "0 0 30px 10px hsl(327 100% 58% / 0)" } },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.4s ease-out",
+        "scale-in": "scale-in 0.25s ease-out",
+        "float-slow": "float-slow 5s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2.5s ease-in-out infinite",
       },
     },
   },
